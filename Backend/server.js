@@ -1,10 +1,12 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import db from "./config/db.js"; // import the connection
+
+import adminRoutes from "./routes/Adminauth.js";
+import productRoutes from "./routes/ProductRoutes.js";
 
 dotenv.config();
-connectDB();
 
 const app = express();
 
@@ -13,12 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/admin", require("./routes/Adminauth"));
-app.use("/api/products", require("./routes/ProductRoutes"));
-
+app.use("/api/admin", adminRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

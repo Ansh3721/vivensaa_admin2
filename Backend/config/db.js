@@ -1,13 +1,16 @@
-const mongoose = require("mongoose");
+// config/db.js
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB Connected");
-  } catch (error) {
-    console.error(error.message);
-    process.exit(1);
-  }
-};
+dotenv.config();
 
-module.exports = connectDB;
+const db = await mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
+
+console.log("MySQL Connected ✅");
+
+export default db; // just export the connection
